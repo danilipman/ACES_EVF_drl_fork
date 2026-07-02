@@ -27,7 +27,7 @@ The code used for analysis is in the main aces_evf/ directory, including the fol
 
 **'PPV_visual.ipynb'** : Initial PPV visualization. See updated webapp here: https://github.com/danilipman?tab=repositories 						
 
-**'oka_table.ipynb'** : Initial comparison with Oka 2012 and Oka 2022 tables
+**'oka_comp_table.ipynb'** : Comparison with Oka 2012 and Oka 2022 tables
 
 
 
@@ -45,4 +45,6 @@ region_list.reg
 explore_pv.ipynb						
 rename_resort.py
 inflow_EVF_PPV_maker.ipynb
-'make_pv_linewidth.py'
+make_pv_linewidth.py
+oka_table.ipynb
+

@@ -31,7 +31,10 @@ def main(line_list=['CS21'], mode=False):
             os.makedirs(line_dir)
 
     #regs = Regions.read('/blue/adamginsburg/savannahgramze/ACES_EVF/aces_evf/EVF_reg_list.reg')
-    tbl = Table.read('/blue/adamginsburg/savannahgramze/ACES_EVF/aces_evf/Filtered_EVFs_table.ecsv')
+    tbl = Table.read('/blue/adamginsburg/savannahgramze/ACES_EVF/aces_evf/HVCC_resampled_subcube_regions_v3.ecsv')
+    #Table.read('/blue/adamginsburg/savannahgramze/ACES_EVF/aces_evf/Filtered_EVFs_table.ecsv')
+    #Table.read('/blue/adamginsburg/savannahgramze/ACES_EVF/aces_evf/dubious_sources.csv')
+    #Table.read('/blue/adamginsburg/savannahgramze/ACES_EVF/aces_evf/Filtered_EVFs_table.ecsv')
     if not mode: 
         print('Processing all regions individually', flush=True)
         if len(line_list) > 1:
@@ -50,7 +53,7 @@ def main(line_list=['CS21'], mode=False):
 
                     # Create a subcube from the region
                     start = timeit.default_timer()
-                    subcube = cube.subcube_from_regions([reg])
+                    subcube = cube.subcube_from_regions([reg], minimize=False)
                     subcube = subcube.with_spectral_unit(u.km/u.s, velocity_convention='radio')
                     end = timeit.default_timer()
                     print(f'Subcube creation took {end - start} seconds', flush=True)
@@ -67,7 +70,6 @@ def main(line_list=['CS21'], mode=False):
                 fn = os.path.join(cube_mosaic_dir, f'{line}_CubeMosaic.fits')
                 print(f"Reading cube: {fn}", flush=True)
                 cube = SpectralCube.read(fn, use_dask=False)
-                #tbl = Table.read('/blue/adamginsburg/savannahgramze/ACES_EVF/aces_evf/Filtered_EVFs_table.ecsv')
 
                 print('Beginning to loop through individual fields to make and write subcubes.', flush=True)
                 for row in tbl: 
@@ -79,7 +81,7 @@ def main(line_list=['CS21'], mode=False):
 
                     # Create a subcube from the region
                     start = timeit.default_timer()
-                    subcube = cube.subcube_from_regions([reg])
+                    subcube = cube.subcube_from_regions([reg], minimize=False)
                     subcube = subcube.with_spectral_unit(u.km/u.s, velocity_convention='radio')
                     end = timeit.default_timer()
                     print(f'Subcube creation took {end - start} seconds', flush=True)
@@ -103,7 +105,7 @@ def main(line_list=['CS21'], mode=False):
             # Create a subcube from the region list
             print(f'Creating subcube for {line} from all regions', flush=True)
             start = timeit.default_timer()
-            subcube = cube.subcube_from_regions(regs)
+            subcube = cube.subcube_from_regions(regs, minimize=False)
             subcube = subcube.with_spectral_unit(u.km/u.s, velocity_convention='radio')
             end = timeit.default_timer()
             print(f'Subcube creation took {end - start} seconds', flush=True)
